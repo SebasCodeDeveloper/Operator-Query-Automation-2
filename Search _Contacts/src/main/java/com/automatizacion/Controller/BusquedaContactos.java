@@ -34,8 +34,7 @@ import org.openqa.selenium.WebElement;
 
 public class BusquedaContactos {
     private ConsolaView vista;
-    private String rutaExcel
-            ;
+    private String rutaExcel;
 
 /**
  * Constructor principal que inicializan las dependencias nesearias
@@ -70,8 +69,8 @@ public class BusquedaContactos {
 
             for (int i = 0; i < contactos.size(); i++) {
                 String numero = contactos.get(i);
-                vista.mostrarMensaje("🔍 Buscando número: " + numero);
-
+               // vista.mostrarMensaje("🔍 Buscando número: " + numero);
+                    System.out.println("position # " + i);
 
                 String url = ConfigManager.get("web.url");
                 driver.get(url);
@@ -87,14 +86,14 @@ public class BusquedaContactos {
 
                     WebElement operadorElemento =  driver.findElement(DoctorSimLocators.OPERADOR);
                     operadorResult = operadorElemento.getText().trim().toUpperCase();
-                    System.out.println("Operador: " + operadorResult);
+                   // System.out.println("Operador: " + operadorResult);
                 } catch (NoSuchElementException e) {
                     operadorResult = "NO DETECTADO";
-                    System.out.println("⚠ No se encontró operador.");
+                   // System.out.println("⚠ No se encontró operador.");
                 }
 
                 ExcelManager.escribirOperador(rutaExcel, i + 1, operadorResult);
-                vista.mostrarMensaje("✔ " + numero + " → " + operadorResult + "\n");
+                //vista.mostrarMensaje("✔ " + numero + " → " + operadorResult + "\n");
             }
 
             vista.mostrarMensaje("✅ Proceso completado correctamente.");
