@@ -2,20 +2,20 @@ package com.automatizacion.View;
 
 /**
  * La clase {@code ConsolaView} se encarga de gestionar la salida de mensajes en la consola.
-
+ * <p>
  * Es utilizada como capa de visualización (Vista) dentro del patrón MVC, proporcionando
  * métodos para mostrar mensajes informativos y mensajes de error durante la ejecución
  * del proceso de automatización.
-
+ * <p>
  * Responsabilidades:
  * Mostrar mensajes estándar al usuario.
  * Mostrar advertencias o errores con formato diferenciado.
-
+ * <p>
  * Ejemplo de uso:
  * ConsolaView view = new ConsolaView();
  * view.mostrarMensaje("Proceso iniciado...");
  * view.mostrarError("No se pudo cargar el archivo.");
-
+ *
  * @author Jhoan Sebastián Peña Ordoñez
  * @version 1.0
  * @since 06/11/2025

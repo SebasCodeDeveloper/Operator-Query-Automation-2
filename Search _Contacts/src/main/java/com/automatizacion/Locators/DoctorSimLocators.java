@@ -4,18 +4,18 @@ import org.openqa.selenium.By;
 
 /**
  * DESCRIPCION GENRAL DE LA CLASE:
-
+ * <p>
  * Clase {@code DoctorSimLocators}  contiene los localizadores (By) utilizados en la página de consulta
  * del operador en DoctorSIM.
-
-   Estos localizadores permiten a Selenium identificar los elementos necesarios para:
+ * <p>
+ * Estos localizadores permiten a Selenium identificar los elementos necesarios para:
  * Ingresar el número telefónico.
  * Iniciar la consulta.
  * Leer el operador detectado.
-
+ * <p>
  * Se recomienda mantener esta clase exclusiva para localizadores,
  * evitando lógica o interacciones con la UI.
-
+ *
  * @author Jhoan
  * @version 1.0
  * @since 06/11/2025
