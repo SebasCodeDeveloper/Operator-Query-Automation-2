@@ -8,6 +8,8 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+
+
 import java.time.Duration;
 import java.util.List;
 
@@ -92,7 +94,9 @@ public class BusquedaContactos {
                 WebElement input = driver.findElement(DoctorSimLocators.INPUT_NUMERO);
                 input.clear();
                 input.sendKeys(numero);
+                Thread.sleep(1000);
                 driver.findElement(DoctorSimLocators.BOTON_SIGUIENTE).click();
+
                 Thread.sleep(4000);
 
                 // Leer operador
@@ -167,15 +171,17 @@ public class BusquedaContactos {
                 String numero = contactos.get(fila - 1);
                 vista.mostrarMensaje("Reintentando número: " + numero);
 
-
                 WebElement input = driver.findElement(DoctorSimLocators.INPUT_NUMERO);
                 input.clear();
                 input.sendKeys(numero);
+                Thread.sleep(1000);
                 driver.findElement(DoctorSimLocators.BOTON_SIGUIENTE).click();
+
                 Thread.sleep(4000);
 
                 String operadorResult;
                 try {
+
                     WebElement operadorElemento = driver.findElement(DoctorSimLocators.OPERADOR);
                     operadorResult = operadorElemento.getText().trim().toUpperCase();
 
