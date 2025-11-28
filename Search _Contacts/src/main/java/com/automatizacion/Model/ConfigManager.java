@@ -8,27 +8,27 @@ import java.util.Properties;
  * La clase {@code ConfigManager} se encarga de cargar y gestionar las configuraciones
  * definidas en el archivo {@code config.properties}, ubicado dentro del directorio
  * {@code resources}.
-
+ * <p>
  * Esta clase facilita el acceso a valores externos como:
-   Rutas de archivos (por ejemplo, Excel)
-   URLs usadas en la automatización
-   Parámetros generales configurables
-
+ * Rutas de archivos (por ejemplo, Excel)
+ * URLs usadas en la automatización
+ * Parámetros generales configurables
+ * <p>
  * El archivo de configuración debe llamarse {@code config.properties}
  * y estar ubicado en:
  * src/main/resources/config.properties
-
+ * <p>
  * Uso:
  * String url = ConfigManager.get("web.url");
  * String excel = ConfigManager.get("excel.path");
-
+ *
  * @author Jhoan
  * @version 1.0
  * @since 06/11/2025
  */
 public class ConfigManager {
 
-    private static Properties properties = new Properties();
+    private static final Properties properties = new Properties();
 
     // Carga el archivo de propiedades al iniciar la clase
     static {
