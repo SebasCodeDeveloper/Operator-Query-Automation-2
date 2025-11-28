@@ -5,6 +5,7 @@ import com.automatizacion.Model.ConfigManager;
 import com.automatizacion.Model.ExcelManager;
 import com.automatizacion.View.ConsolaView;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -94,8 +95,7 @@ public class BusquedaContactos {
                 WebElement input = driver.findElement(DoctorSimLocators.INPUT_NUMERO);
                 input.clear();
                 input.sendKeys(numero);
-                Thread.sleep(1000);
-                driver.findElement(DoctorSimLocators.BOTON_SIGUIENTE).click();
+                input.sendKeys(Keys.ENTER);
 
                 Thread.sleep(4000);
 
@@ -175,7 +175,7 @@ public class BusquedaContactos {
                 input.clear();
                 input.sendKeys(numero);
                 Thread.sleep(1000);
-                driver.findElement(DoctorSimLocators.BOTON_SIGUIENTE).click();
+                input.sendKeys(Keys.ENTER);
 
                 Thread.sleep(4000);
 

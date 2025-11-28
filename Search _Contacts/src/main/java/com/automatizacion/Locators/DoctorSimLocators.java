@@ -28,11 +28,6 @@ public class DoctorSimLocators {
     public static final By INPUT_NUMERO = By.id("phone");
 
     /**
-     * Botón que permite avanzar o ejecutar la búsqueda del operador.
-     */
-    public static final By BOTON_SIGUIENTE = By.id("form-submit");
-
-    /**
      * Elemento donde se muestra el operador después de realizar la consulta.
      */
     public static final By OPERADOR = By.xpath("//*[@id=\"showSelec\"]/div[2]/div/div/div/div/div/p");
