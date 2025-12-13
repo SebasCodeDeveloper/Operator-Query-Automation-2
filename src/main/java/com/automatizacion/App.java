@@ -50,6 +50,7 @@ public class App {
         // Obtiene la ruta del archivo Excel desde el archivo config.properties
         String rutaExcel = ConfigManager.get("ruta.excel");
 
+
         ExcelManager excel = new ExcelManager();
         ConsolaView vista = new ConsolaView();
         BusquedaContactos controlador = new BusquedaContactos(excel, vista, rutaExcel);
