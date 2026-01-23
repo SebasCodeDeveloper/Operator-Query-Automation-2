@@ -1,4 +1,4 @@
-package com.automatizacion.View;
+package com.automatizacion.view;
 
 /**
  * La clase {@code ConsolaView} se encarga de gestionar la salida de mensajes en la consola.

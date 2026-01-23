@@ -1,4 +1,4 @@
-package com.automatizacion.Locators;
+package com.automatizacion.locators;
 
 import org.openqa.selenium.By;
 
@@ -31,5 +31,11 @@ public class DoctorSimLocators {
      * Elemento donde se muestra el operador después de realizar la consulta.
      */
     public static final By OPERADOR = By.xpath("//*[@id=\"showSelec\"]/div[2]/div/div/div/div/div/p");
+
+    public static final By MODAL_OPERADOR = By.xpath("//*[@id=\"message_select\"]/div/div/div[1]/center/span");
+
+
+    public static final By BOTON_OK  = By.xpath("//*[@id=\"message_select\"]/div/div/div[3]/a");
+
 
 }

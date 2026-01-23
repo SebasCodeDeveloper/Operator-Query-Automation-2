@@ -1,4 +1,4 @@
-package com.automatizacion.Model;
+package com.automatizacion.model;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -42,7 +42,7 @@ public class ExcelManager {
             for (int i = 1; i <= sheet.getLastRowNum(); i++) { // empieza en fila 1 (evita título)
                 Row fila = sheet.getRow(i);
                 if (fila == null) continue;
-                Cell celda = fila.getCell(2); // Columna C (índice 2)
+                Cell celda = fila.getCell(0); // Columna C (índice 2)
                 if (celda == null)
                     continue;
 
@@ -80,7 +80,7 @@ public class ExcelManager {
 
             Sheet sheet = workbook.getSheet("Hoja1");
             Row row = sheet.getRow(fila);
-            Cell cell = row.createCell(12); // Columna B
+            Cell cell = row.createCell(1); // Columna B
             cell.setCellValue(operador);
 
             try (FileOutputStream out = new FileOutputStream(rutaExcel)) {
@@ -117,7 +117,7 @@ public class ExcelManager {
                 Row fila = sheet.getRow(i);
                 if (fila == null) continue;
 
-                Cell celdaOperador = fila.getCell(12); // Columna operador (K)
+                Cell celdaOperador = fila.getCell(1); // Columna operador (K)
 
                 if (celdaOperador != null) {
                     String valor = celdaOperador.getStringCellValue().trim().toUpperCase();
