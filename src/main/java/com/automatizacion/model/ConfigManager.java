@@ -1,4 +1,4 @@
-package com.automatizacion.Model;
+package com.automatizacion.model;
 
 import java.io.IOException;
 import java.io.InputStream;

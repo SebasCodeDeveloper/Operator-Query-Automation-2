@@ -1,4 +1,4 @@
-package com.automatizacion.Locators;
+package com.automatizacion.locators;
 
 import org.openqa.selenium.By;
 
