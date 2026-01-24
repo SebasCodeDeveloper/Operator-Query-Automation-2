@@ -9,25 +9,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * DESCRIPCION GENRAL DE LA CLASE:
- * La clase {@code ExcelManager} sencargada de gestionar la lectura y escritura en el archivo Excel utilizado
- * en el proceso de automatización.
- * <p>
- * ESTA CLASE PERMITE
- * Leer una lista de números telefónicos desde una hoja específica.
- * Registrar el operador correspondiente a cada número.
- * <p>
- * Configuración utilizada:
- * Números se leen desde la columna C (índice 2).
- * Operadores se escriben en la columna B (índice 1).
+ * Gestor encargado de la persistencia de datos en archivos Excel.
+ * Maneja la lectura de contactos y la actualización de estados de los operadores.
  *
- * @author Jhoan Sebastoian Peña Ordoñez
- * @version 1.0
- * @since 06/11/2025
+ * @author SebasCodeDev
+ * @version 1.3.1
+ * @since 01/24/2026
  */
-
 public class ExcelManager {
 
+    /**
+     * Extrae la lista de números telefónicos desde la primera columna de la hoja principal.
+     * @param rutaExcel Ruta absoluta o relativa del archivo .xlsx
+     * @return Lista de strings con los números encontrados.
+     */
     public static List<String> leerContactos(String rutaExcel) {
         List<String> contactos = new ArrayList<>();
         try (FileInputStream file = new FileInputStream(rutaExcel);
@@ -39,14 +34,15 @@ public class ExcelManager {
                 return contactos;
             }
 
-            for (int i = 1; i <= sheet.getLastRowNum(); i++) { // empieza en fila 1 (evita título)
+            // Recorre desde la segunda fila para omitir los encabezados
+            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
                 Row fila = sheet.getRow(i);
                 if (fila == null) continue;
-                Cell celda = fila.getCell(0); // Columna C (índice 2)
-                if (celda == null)
-                    continue;
 
-                // ✅ Convertir número correctamente evitando notación científica
+                Cell celda = fila.getCell(0);
+                if (celda == null) continue;
+
+                // Normalización de datos para evitar notación científica en números largos
                 String numero = "";
                 if (celda.getCellType() == CellType.NUMERIC) {
                     numero = String.valueOf((long) celda.getNumericCellValue());
@@ -67,22 +63,23 @@ public class ExcelManager {
     }
 
     /**
-     * Escribe en la hoja el operador detectado para un número.
-     *
-     * @param rutaExcel Ruta del archivo Excel.
-     * @param fila      Número de fila en la cual escribir.
-     * @param operador  Operador identificado.
+     * Registra el resultado del operador en la columna correspondiente del archivo Excel.
+     * @param rutaExcel Ruta del archivo.
+     * @param fila      Índice de la fila a modificar.
+     * @param operador  Texto con el nombre del operador detectado.
      */
-
     public static void escribirOperador(String rutaExcel, int fila, String operador) {
         try (FileInputStream file = new FileInputStream(rutaExcel);
              Workbook workbook = new XSSFWorkbook(file)) {
 
             Sheet sheet = workbook.getSheet("Hoja1");
             Row row = sheet.getRow(fila);
-            Cell cell = row.createCell(1); // Columna B
+
+            // Crea o sobrescribe la celda en la columna de resultados (Columna B)
+            Cell cell = row.createCell(1);
             cell.setCellValue(operador);
 
+            // Flujo de salida para guardar los cambios en el disco
             try (FileOutputStream out = new FileOutputStream(rutaExcel)) {
                 workbook.write(out);
             }
@@ -92,19 +89,10 @@ public class ExcelManager {
     }
 
     /**
-     * Obtiene la lista de filas que requieren reprocesamiento por presentar
-     * un operador marcado como "NO DETECTADO" o "NO ENCONTRADO" dentro del archivo Excel.
-     * <p>
-     * El método lee la hoja "Hoja1" del archivo indicado, evalúa la columna correspondiente
-     * al operador (columna 12, índice basado en 0) y agrega a la lista todas las filas
-     * que coincidan con los valores mencionados.
-     * </p>
-     *
-     * @param rutaExcel Ruta completa del archivo Excel desde donde se obtendrá la información.
-     * @return Una lista con los números de fila (basados en índice 1) que deben ser reprocesadas.
-     * @throws RuntimeException Si ocurre un error durante la lectura del archivo Excel.
+     * Filtra las filas que no pudieron ser procesadas correctamente para su reintento.
+     * @param rutaExcel Ruta del archivo.
+     * @return Lista de índices de filas marcadas con error o no detectadas.
      */
-
     public static List<Integer> obtenerFilasNoDetectados(String rutaExcel) {
         List<Integer> filasReprocesar = new ArrayList<>();
 
@@ -117,13 +105,15 @@ public class ExcelManager {
                 Row fila = sheet.getRow(i);
                 if (fila == null) continue;
 
-                Cell celdaOperador = fila.getCell(1); // Columna operador (K)
+                // Evaluación del estado en la columna de resultados
+                Cell celdaOperador = fila.getCell(1);
 
                 if (celdaOperador != null) {
                     String valor = celdaOperador.getStringCellValue().trim().toUpperCase();
 
+                    // Identificación de estados que requieren una nueva consulta
                     if (valor.equals("NO DETECTADO") || valor.equals("NO ENCONTRADO")) {
-                        filasReprocesar.add(i);   // Guardamos el número de fila
+                        filasReprocesar.add(i);
                     }
                 }
             }
