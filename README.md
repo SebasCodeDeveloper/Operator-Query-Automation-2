@@ -39,7 +39,7 @@ El flujo principal es:
 
 |              Campo              |      Detalle       |
 |:-------------------------------:|:------------------:|
-|       **Versión Actual**        |       1.3.0        |
+|       **Versión Actual**        |       1.3.1        |
 |    **Última Actualización**     | 23 de Enero, 2026  |
 |          **Lenguaje**           |      Java 17+      |
 | **Framework de Automatización** | Selenium WebDriver |
