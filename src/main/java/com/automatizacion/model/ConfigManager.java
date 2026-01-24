@@ -5,32 +5,23 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * La clase {@code ConfigManager} se encarga de cargar y gestionar las configuraciones
- * definidas en el archivo {@code config.properties}, ubicado dentro del directorio
- * {@code resources}.
- * <p>
- * Esta clase facilita el acceso a valores externos como:
- * Rutas de archivos (por ejemplo, Excel)
- * URLs usadas en la automatización
- * Parámetros generales configurables
- * <p>
- * El archivo de configuración debe llamarse {@code config.properties}
- * y estar ubicado en:
- * src/main/resources/config.properties
- * <p>
- * Uso:
- * String url = ConfigManager.get("web.url");
- * String excel = ConfigManager.get("excel.path");
+ * Gestor de configuraciones encargado de cargar y administrar las propiedades
+ * externas del proyecto desde el archivo {@code config.properties}.
+ * * Permite centralizar valores como URLs, rutas de archivos y parámetros
+ * de ejecución sin necesidad de modificar el código fuente.
  *
- * @author Jhoan
- * @version 1.0
- * @since 06/11/2025
+ * @author SebasCodeDev
+ * @version 1.3.1
+ * @since 01/24/2026
  */
 public class ConfigManager {
 
+    /**
+     * Objeto contenedor de las duplas clave-valor del archivo de configuración.
+     */
     private static final Properties properties = new Properties();
 
-    // Carga el archivo de propiedades al iniciar la clase
+    // Bloque estático para asegurar que las propiedades se carguen al iniciar la aplicación
     static {
         try (InputStream input = ConfigManager.class.getClassLoader().getResourceAsStream("config.properties")) {
 
@@ -46,10 +37,10 @@ public class ConfigManager {
     }
 
     /**
-     * Obtiene el valor de una clave definida en el archivo de configuración.
+     * Recupera un valor específico basado en su identificador único (key).
      *
-     * @param key clave a buscar en el archivo .properties
-     * @return valor asociado a la clave, o {@code null} si no existe
+     * @param key Identificador de la propiedad definida en el archivo .properties.
+     * @return El valor asociado como {@code String}, o {@code null} si la clave no existe.
      */
     public static String get(String key) {
         return properties.getProperty(key);

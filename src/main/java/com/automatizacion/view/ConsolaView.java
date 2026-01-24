@@ -1,44 +1,32 @@
 package com.automatizacion.view;
 
 /**
- * La clase {@code ConsolaView} se encarga de gestionar la salida de mensajes en la consola.
- * <p>
- * Es utilizada como capa de visualización (Vista) dentro del patrón MVC, proporcionando
- * métodos para mostrar mensajes informativos y mensajes de error durante la ejecución
- * del proceso de automatización.
- * <p>
- * Responsabilidades:
- * Mostrar mensajes estándar al usuario.
- * Mostrar advertencias o errores con formato diferenciado.
- * <p>
- * Ejemplo de uso:
- * ConsolaView view = new ConsolaView();
- * view.mostrarMensaje("Proceso iniciado...");
- * view.mostrarError("No se pudo cargar el archivo.");
+ * Clase encargada de la interfaz de usuario por consola.
+ * Actúa como la capa de salida (Vista) en el patrón MVC, centralizando
+ * la comunicación de eventos y errores durante la ejecución del bot.
  *
- * @author Jhoan Sebastián Peña Ordoñez
- * @version 1.0
- * @since 06/11/2025
+ * @author SebasCodeDev
+ * @version 1.3.1
+ * @since 01/24/2026
  */
 public class ConsolaView {
 
     /**
-     * Muestra un mensaje informativo en la consola.
+     * Imprime un mensaje informativo estándar en la salida del sistema.
      *
-     * @param mensaje texto que se desea mostrar al usuario
+     * @param mensaje Texto explicativo del paso actual del proceso.
      */
     public void mostrarMensaje(String mensaje) {
         System.out.println(mensaje);
     }
 
     /**
-     * Muestra un mensaje de error en la consola, precedido de
-     * un ícono de advertencia para facilitar su identificación.
+     * Imprime una alerta de error en la salida de errores (stderr).
+     * Incluye un formato visual para resaltar fallos críticos o excepciones.
      *
-     * @param error descripción del error ocurrido
+     * @param error Descripción detallada del problema encontrado.
      */
     public void mostrarError(String error) {
-        System.err.println("⚠ " + error);
+        System.err.println("⚠ ERROR: " + error);
     }
-
 }
