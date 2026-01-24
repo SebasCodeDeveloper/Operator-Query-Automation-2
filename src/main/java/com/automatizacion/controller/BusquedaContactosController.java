@@ -16,8 +16,8 @@ import java.util.List;
  * NO contiene lógica de red
  * NO contiene lógica de infraestructura
  *
- * @author Jhoan
- * @version 3.1
+ * @author SebasCodeDev
+ * @version 1.3.1
  */
 public class BusquedaContactosController {
 
@@ -28,20 +28,23 @@ public class BusquedaContactosController {
     private final String rutaExcel;
     String url;
 
+    /**
+     * Constructor que recibe las dependencias y la configuración necesaria.
+     */
     public BusquedaContactosController(
             ExcelManager excelManager,
             ConsolaView vista,
             DoctorSimAutomation automation,
             RedService redService,
             String rutaExcel,
-            String url // ✅ nuevo parámetro
+            String url
     ) {
         this.excelManager = excelManager;
         this.vista = vista;
         this.automation = automation;
         this.redService = redService;
         this.rutaExcel = rutaExcel;
-        this.url = url; // ✅ ahora sí tiene un valor
+        this.url = url;
     }
 
     /**
@@ -51,6 +54,7 @@ public class BusquedaContactosController {
 
         List<String> contactos = excelManager.leerContactos(rutaExcel);
 
+        // Validación de rango para evitar errores de índice
         if (filaInicio < 0 || filaInicio >= contactos.size()) {
             vista.mostrarError("La fila de inicio no es válida.");
             return;
@@ -58,8 +62,8 @@ public class BusquedaContactosController {
 
         vista.mostrarMensaje("🚀 Iniciando proceso desde fila " + (filaInicio + 1));
 
-        redService.alternarRed();
-        automation.iniciar(url); // ✅ AQUÍ SE INICIALIZA EL DRIVER
+        // AQUÍ SE INICIALIZA EL DRIVER
+        automation.iniciar(url);
 
         for (int i = filaInicio; i < contactos.size(); i++) {
             String numero = contactos.get(i);
@@ -69,9 +73,13 @@ public class BusquedaContactosController {
                 automation.ingresarNumero(numero);
                 ResultadoBusqueda resultado = automation.consultarResultado();
 
+                // Lógica de recuperación si se detecta un bloqueo (modal)
                 if (resultado.hayModal()) {
                     vista.mostrarMensaje("🚩 Modal detectado. Cambiando red...");
-                    excelManager.escribirOperador(rutaExcel, i + 1, ResultadoBusqueda.noDetectado().getOperador()); // <--- esto se perdió
+                    // Se guarda operador no detectado
+                    excelManager.escribirOperador(rutaExcel, i + 1, ResultadoBusqueda.noDetectado().getOperador());
+
+                    // Reinicio de sesión con cambio de IP
                     automation.cerrar();
                     redService.alternarRed();
                     automation.iniciar(url);
@@ -80,6 +88,7 @@ public class BusquedaContactosController {
                     continue;
                 }
 
+                // Registro del operador encontrado en el Excel
                 excelManager.escribirOperador(
                         rutaExcel,
                         i + 1,
@@ -109,8 +118,9 @@ public class BusquedaContactosController {
 
         vista.mostrarMensaje("🔁 Reprocesando " + filas.size() + " registros...");
 
+        // Preparación del entorno para el reintento
         redService.alternarRed();
-        automation.iniciar(url); // ✅ AQUÍ TAMBIÉN
+        automation.iniciar(url);
 
         List<String> contactos = excelManager.leerContactos(rutaExcel);
 
@@ -125,6 +135,7 @@ public class BusquedaContactosController {
                 if (resultado.hayModal()) {
                     vista.mostrarMensaje("🚩 Modal detectado. Cambiando red...");
                     excelManager.escribirOperador(rutaExcel, fila, ResultadoBusqueda.noDetectado().getOperador());
+
                     automation.cerrar();
                     redService.alternarRed();
                     automation.iniciar(url);

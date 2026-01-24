@@ -3,39 +3,34 @@ package com.automatizacion.locators;
 import org.openqa.selenium.By;
 
 /**
- * DESCRIPCION GENRAL DE LA CLASE:
- * <p>
- * Clase {@code DoctorSimLocators}  contiene los localizadores (By) utilizados en la página de consulta
- * del operador en DoctorSIM.
- * <p>
- * Estos localizadores permiten a Selenium identificar los elementos necesarios para:
- * Ingresar el número telefónico.
- * Iniciar la consulta.
- * Leer el operador detectado.
- * <p>
- * Se recomienda mantener esta clase exclusiva para localizadores,
- * evitando lógica o interacciones con la UI.
+ * Repositorio centralizado de selectores para el portal DoctorSim.
+ * Esta clase sigue el patrón de diseño Object Repository para facilitar
+ * el mantenimiento y la reutilización de elementos de la interfaz.
  *
- * @author Jhoan
- * @version 1.0
+ * @author SebasCodeDev
+ * @version 1.3.1
  * @since 06/11/2025
  */
 public class DoctorSimLocators {
 
     /**
-     * Campo de texto donde se ingresa el número telefónico.
+     * Selector para el campo de entrada del número telefónico.
      */
     public static final By INPUT_NUMERO = By.id("phone");
 
     /**
-     * Elemento donde se muestra el operador después de realizar la consulta.
+     * Selector del contenedor que muestra el nombre del operador tras la búsqueda.
      */
     public static final By OPERADOR = By.xpath("//*[@id=\"showSelec\"]/div[2]/div/div/div/div/div/p");
 
+    /**
+     * Selector del mensaje emergente (modal) que indica errores o avisos del sistema.
+     */
     public static final By MODAL_OPERADOR = By.xpath("//*[@id=\"message_select\"]/div/div/div[1]/center/span");
 
-
-    public static final By BOTON_OK  = By.xpath("//*[@id=\"message_select\"]/div/div/div[3]/a");
-
+    /**
+     * Botón de confirmación para cerrar los modales de advertencia.
+     */
+    public static final By BOTON_OK = By.xpath("//*[@id=\"message_select\"]/div/div/div[3]/a");
 
 }
