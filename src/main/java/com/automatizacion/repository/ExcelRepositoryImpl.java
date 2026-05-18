@@ -1,15 +1,11 @@
 package com.automatizacion.repository;
 
 import com.automatizacion.model.ExcelManager;
+
 import java.util.List;
 
 /**
- * Implementación de la interfaz ExcelRepository.
- * Actúa como un adaptador que delega las operaciones de bajo nivel
- * a la utilidad especializada ExcelManager.
- * * @author SebasCodeDev
- * @version 1.3.1
- * @since 01/24/2026
+ * Implementación de la interfaz ExcelRepository. * Actúa como un adaptador que delega las operaciones de bajo nivel * a la utilidad especializada ExcelManager. * * @author SebasCodeDev * @version 1.3.1 * @since 01/24/2026
  */
 public class ExcelRepositoryImpl implements ExcelRepository {
 

@@ -9,13 +9,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 /**
- * Clase que implementa la lógica de interacción con el portal DoctorSim.
- * Centraliza el manejo de elementos web y control de flujo de la búsqueda.
- * @author SebasCodeDev
- * @version 1.3.1
+ * Clase que implementa la lógica de interacción con el portal DoctorSim. * Centraliza el manejo de elementos web y control de flujo de la búsqueda. * @author SebasCodeDev * @version 1.3.1
  */
 public class DoctorSimAutomationImpl implements DoctorSimAutomation {
-
     private WebDriver driver;
 
     /**
@@ -23,7 +19,7 @@ public class DoctorSimAutomationImpl implements DoctorSimAutomation {
      */
     @Override
     public void iniciar(String url) {
-        // Se utiliza el Factory para obtener un driver configurado
+
         driver = WebDriverFactory.crear(url);
     }
 
@@ -32,23 +28,18 @@ public class DoctorSimAutomationImpl implements DoctorSimAutomation {
      */
     @Override
     public void ingresarNumero(String numero) throws InterruptedException {
-        // Espera máxima de 20 segundos para que el input sea interactuable
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-
+        // Espera máxima de 30 segundos para que el input sea interactuable
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
         // Localiza el campo de texto del número
         WebElement input = wait.until(ExpectedConditions.elementToBeClickable(DoctorSimLocators.INPUT_NUMERO));
-
         // Limpia cualquier residuo de texto antes de escribir
+        pausaHumana(100, 200);
         input.clear();
-
-        // Pequeñas pausas para asegurar que la página procese los eventos de teclado
-        Thread.sleep(800);
+        pausaHumana(1000, 1100); //1000, 1100
         input.sendKeys(numero);
-
-        Thread.sleep(600);
+        pausaHumana(900, 1100); //900, 1100
         // Simula la tecla Enter para disparar la consulta
-        input.sendKeys(Keys.ENTER);
-    }
+        input.sendKeys(Keys.ENTER); }
 
     /**
      * Evalúa si la consulta fue exitosa o si aparecieron obstáculos.
@@ -56,25 +47,31 @@ public class DoctorSimAutomationImpl implements DoctorSimAutomation {
     @Override
     public ResultadoBusqueda consultarResultado() {
         try {
-            // Intenta localizar el texto del operador con una espera corta
-            WebDriverWait waitRes = new WebDriverWait(driver, Duration.ofSeconds(5));
-            WebElement operador = waitRes.until(ExpectedConditions.visibilityOfElementLocated(DoctorSimLocators.OPERADOR));
+            if (!driver.findElements(DoctorSimLocators.ERROR_TELEFONO).isEmpty()) {
+                WebElement divError = driver.findElement(DoctorSimLocators.ERROR_TELEFONO);
+                if (divError.isDisplayed() && divError.getText().contains("Revisa el número")) {
+                    System.out.println("❌ Número no válido detectado.");
+                    return ResultadoBusqueda.noDetectado();
+                }
+            }
+            WebDriverWait waitRes = new WebDriverWait(driver, Duration.ofSeconds(10));
+            WebElement operadorElemento = waitRes.until(ExpectedConditions.visibilityOfElementLocated(DoctorSimLocators.OPERADOR));
+            waitRes.until(driver -> !operadorElemento.getText().trim().isEmpty());
+            pausaHumana(950, 1000); //1100, 1200
 
-            // Retorna el resultado formateado en mayúsculas
-            return ResultadoBusqueda.ok(operador.getText().trim().toUpperCase());
-
+            String textoOperador = operadorElemento.getText().trim().toUpperCase();
+            return ResultadoBusqueda.ok(textoOperador);
         } catch (TimeoutException e) {
-            // Si no aparece el resultado, verifica si hay un modal de error visible
             if (!driver.findElements(DoctorSimLocators.MODAL_OPERADOR).isEmpty()) {
                 try {
-                    // Intenta cerrar el modal para no bloquear futuras ejecuciones
                     driver.findElement(DoctorSimLocators.BOTON_OK).click();
                 } catch (Exception ignored) {
-                    // Si falla el clic, se ignora para continuar con el flujo
                 }
                 return ResultadoBusqueda.modal();
             }
-            // Si no hay modal ni resultado, se marca como no detectado
+            return ResultadoBusqueda.noDetectado();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
             return ResultadoBusqueda.noDetectado();
         }
     }
@@ -94,8 +91,12 @@ public class DoctorSimAutomationImpl implements DoctorSimAutomation {
     public void cerrar() {
         if (driver != null) {
             driver.quit();
-            // Limpia la referencia para evitar fugas de memoria
             driver = null;
         }
+    }
+
+    public void pausaHumana(int min, int max) throws InterruptedException {
+        long randomSleep = min + (long)(Math.random() * (max - min));
+        Thread.sleep(randomSleep);
     }
 }
