@@ -5,32 +5,49 @@ import org.openqa.selenium.chrome.*;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 /**
- * Fábrica encargada de centralizar la creación y configuración
- * de la instancia de WebDriver para Chrome.
- * * @author SebasCodeDev
- * @version 1.3.1
+ * Factory para crear el WebDriver optimizado.
+ *
+ * 🔥 OPTIMIZACIONES:
+ * - Headless rápido
+ * - Sin imágenes (más velocidad)
+ * - Menos consumo de recursos
  */
 public class WebDriverFactory {
 
-    /**
-     * Configura el driver, define opciones de inicio y navega a la URL base.
-     * @param url Dirección web que el navegador cargará al iniciar.
-     * @return Una instancia de WebDriver (ChromeDriver) lista para usar.
-     */
     public static WebDriver crear(String url) {
-        // Configura automáticamente el binario de ChromeDriver según la versión del navegador
+
+        // Configura driver automáticamente
         WebDriverManager.chromedriver().setup();
 
-        // Configuración de parámetros de inicio para Chrome
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--start-maximized", "--remote-allow-origins=*");
 
-        // Inicialización del driver con las opciones definidas
+        options.addArguments(
+                "--disable-gpu",
+                "--no-sandbox",
+                "--disable-dev-shm-usage",
+            //    "--blink-settings=imagesEnabled=false",
+                "--remote-allow-origins=*"
+        );
+
         WebDriver driver = new ChromeDriver(options);
 
-        // Navegación inmediata a la URL proporcionada
+
         driver.get(url);
 
         return driver;
     }
-}
+
+/**
+ * Limpia la caché de los binarios y resoluciones de WebDriverManager.
+ * Útil si experimentas problemas de compatibilidad tras actualizaciones de Chrome.
+ */
+        public static void limpiarCache() {
+            // Limpia los binarios descargados (chromedriver.exe, etc.)
+            WebDriverManager.chromedriver().clearDriverCache();
+
+            // Limpia el historial de versiones/resoluciones
+            WebDriverManager.chromedriver().clearResolutionCache();
+
+            System.out.println("✅ Caché de WebDriverManager limpiada correctamente.");
+        }
+    }
