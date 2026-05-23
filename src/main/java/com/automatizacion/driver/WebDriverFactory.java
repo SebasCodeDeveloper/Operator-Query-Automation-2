@@ -7,10 +7,10 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 /**
  * Factory para crear el WebDriver optimizado.
  *
- * 🔥 OPTIMIZACIONES:
- * - Headless rápido
- * - Sin imágenes (más velocidad)
- * - Menos consumo de recursos
+ * OPTIMIZACIONES:
+ * Headless rápido
+ * Sin imágenes (más velocidad)
+ * Menos consumo de recursos
  */
 public class WebDriverFactory {
 

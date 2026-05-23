@@ -1,6 +1,6 @@
 <h2 align="center">
   <img src="https://github.com/7oSkaaa/7oSkaaa/blob/main/Images/about_me.gif?raw=true" width="45px" />
-  <strong>Consulta de Operador – Automatización</strong>
+  <strong>Consulta de Operador-2 – Automatización</strong>
 </h2>
 
 <p align="center">
@@ -15,7 +15,7 @@ Automatización avanzada en Java y Selenium que permite identificar y registrar 
 
 ## 📌 **Descripción del Proyecto**
 
-Este proyecto automatiza la consulta del operador móvil de uno o varios números telefónicos utilizando la página DoctorSIM.
+Este proyecto automatiza la consulta del operador móvil de uno o varios números telefónicos utilizando la página Rebtel.
 
 El flujo principal es:
 
