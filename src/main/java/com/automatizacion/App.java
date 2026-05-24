@@ -1,7 +1,7 @@
 package com.automatizacion;
 
-import com.automatizacion.automation.DoctorSimAutomation;
-import com.automatizacion.automation.DoctorSimAutomationImpl;
+import com.automatizacion.automation.RebtelAutomation;
+import com.automatizacion.automation.RebtelAutomationImpl;
 import com.automatizacion.controller.BusquedaContactosController;
 import com.automatizacion.driver.WebDriverFactory;
 import com.automatizacion.model.ConfigManager;
@@ -36,7 +36,7 @@ public class App {
         // --- Inicialización de Componentes (Infraestructura)
         ExcelManager excelManager = new ExcelManager();
         ConsolaView vista = new ConsolaView();
-        DoctorSimAutomation automation = new DoctorSimAutomationImpl();
+        RebtelAutomation automation = new RebtelAutomationImpl();
         RedService redService = new RedServiceImpl(rutaProton);
 
         // --- Inyección de Dependencias en el Controller ---
