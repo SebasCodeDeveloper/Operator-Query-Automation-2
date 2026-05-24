@@ -1,6 +1,6 @@
 package com.automatizacion.controller;
 
-import com.automatizacion.automation.DoctorSimAutomation;
+import com.automatizacion.automation.RebtelAutomation;
 import com.automatizacion.model.ExcelManager;
 import com.automatizacion.model.ResultadoBusqueda;
 import com.automatizacion.service.RedService;
@@ -9,16 +9,18 @@ import com.automatizacion.view.ConsolaView;
 import java.util.List;
 
 /**
- * Controlador principal del flujo. * * 🔥 OPTIMIZACIONES: * - Estructura try-finally para garantizar el cierre de procesos. * - Flujo robusto que evita procesos huérfanos (zombies).
+ * Controlador principal del flujo.
+ * OPTIMIZACIONES: * - Estructura try-finally para garantizar el cierre de procesos.
+ * Flujo robusto que evita procesos huérfanos (zombies).
  */
 public class BusquedaContactosController {
     private final ConsolaView vista;
-    private final DoctorSimAutomation automation;
+    private final RebtelAutomation automation;
     private final RedService redService;
     private final String rutaExcel;
     String url;
 
-    public BusquedaContactosController(ExcelManager excelManager, ConsolaView vista, DoctorSimAutomation automation, RedService redService, String rutaExcel, String url) {
+    public BusquedaContactosController(ExcelManager excelManager, ConsolaView vista, RebtelAutomation automation, RedService redService, String rutaExcel, String url) {
         this.vista = vista;
         this.automation = automation;
         this.redService = redService;
@@ -51,7 +53,6 @@ public class BusquedaContactosController {
                         automation.cerrar();
                         redService.alternarRed();
                         automation.iniciar(url);
-                        automation.refrescar();
                         continue;
                     }
                     // Guarda resultado normal
@@ -61,7 +62,6 @@ public class BusquedaContactosController {
                 }
             }
         } finally {
-            // ESTO SE EJECUTA SIEMPRE AL FINALIZAR
             automation.cerrar();
             vista.mostrarMensaje("✅ Proceso completado y procesos cerrados.");
         }
@@ -92,7 +92,6 @@ public class BusquedaContactosController {
                         automation.cerrar();
                         redService.alternarRed();
                         automation.iniciar(url);
-                        automation.refrescar();
                         continue;
                     }
                     ExcelManager.escribirOperador(rutaExcel, fila, resultado.getOperador());
@@ -101,7 +100,6 @@ public class BusquedaContactosController {
                 }
             }
         } finally {
-            // ESTO SE EJECUTA SIEMPRE AL FINALIZAR
             automation.cerrar();
             vista.mostrarMensaje("✅ Reprocesamiento completado y procesos cerrados.");
         }
